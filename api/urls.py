@@ -21,7 +21,12 @@ urlpatterns = [
     path('rooms', AllRoomsView.as_view()),
     path('room', RoomView.as_view()),
     path('create-room', CreateRoom.as_view()),
-    path('game', GameView.as_view()),
+    path('game', PrepareToGameView.as_view()),
     path('leave-game', LeaveGameView.as_view()),
-
+    path('create-comment', AddComment.as_view()),
+    path('game-start', GameView.as_view()),
+    path('new-word', NewWord.as_view()),
+    path('guess-word', GuessWord.as_view()),
+    path('restart-game', RestartGame.as_view()),
+    path('mix-players', MixPlayers.as_view()),
 ]

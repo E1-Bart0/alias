@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button, Grid, Paper, TextField, withStyles} from "@material-ui/core";
 import {createMuiTheme, makeStyles, ThemeProvider} from "@material-ui/core/styles";
 import {green} from "@material-ui/core/colors";
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {display: 'flex', flexWrap: 'wrap',},
@@ -73,8 +73,14 @@ export default function JoinPage(props) {
                                 error={error}
                                 variant="outlined"
                                 id="validation-outlined-input"
-                                inputProps={{style: {textTransform: 'uppercase'}}}
+                                inputProps={{
+                                    style: {textTransform: 'uppercase'},
+                                    maxlength: 6
+                                }}
                                 onChange={e => validRoom(e)}
+                                // onSubmit={(!error) ?
+                                //     <Redirect to={`/room/${code}`}/> : null
+                                // }
                             />
                         </ThemeProvider>
                     </form>

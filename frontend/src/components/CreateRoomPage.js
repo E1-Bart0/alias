@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Header from "./Header";
 import {makeStyles} from "@material-ui/core/styles";
 import {Button, Grid, GridList, Grow, TextField, Typography} from "@material-ui/core";
@@ -16,31 +16,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreatePage(props) {
     const classes = useStyles();
-    const [diff, setDiff] = useState('easy')
-    const [words, setWords] = useState(2)
+    const [diff, setDiff] = useState(props.diff || 'easy')
+    const [words, setWords] = useState(props.words_amount || 20)
     const [successMsg, setSuccess] = useState(null)
     const [errorsMsg, setErrors] = useState(null)
 
+    function handleWords(value){
+        setWords(value)
+        props.setWords(value)
+    }
 
     function changeDiff(difficulty) {
         setDiff(difficulty)
+        props.setDiff(difficulty)
     }
 
     const images = {
         'easy': (<ImageCard
             image='https://sun9-38.userapi.com/impg/Tj2MEF8-iWshmyBx41pp0zuZ8w0HiQcGfZSLzA/dBjR4pFrrXI.jpg?size=256x389&quality=96&proxy=1&sign=f01dc66c618d64b584332a78f04bc19f&type=album'
             difficulty='easy'
+            dialog={props.dialog}
             current_diff={diff}
             ClickEvent={changeDiff}
         />),
         'medium': (<ImageCard
             image='https://vk.com/sticker/1-12702-128'
             difficulty='medium'
+            dialog={props.dialog}
             current_diff={diff}
             ClickEvent={changeDiff}
         />),
         'hard': (<ImageCard
             image='https://vk.com/sticker/1-12691-128'
+            dialog={props.dialog}
             difficulty='hard'
             current_diff={diff}
             ClickEvent={changeDiff}
@@ -71,7 +79,7 @@ export default function CreatePage(props) {
             body: JSON.stringify({
                 difficulty: diff,
                 words_amount: words,
-        })
+            })
         }
         fetch('/api/create-room', request_option)
             .then((response) => {
@@ -82,40 +90,44 @@ export default function CreatePage(props) {
                     setErrors('Error Create');
                     console.log('Error Create');
                 }
-            }).then((data) => props.history.push('/room/'+data.room))
+            }).then((data) => props.history.push('/room/' + data.room))
     }
 
     if (errorsMsg) {
         return ('Error To Create Room')
     }
     return (
-        <div className={classes.root}>
+        <div className={classes.root} style={{maxHeight: (props.dialog) ? '500px' : null}}>
             <Header/>
             <div className={classes.container}>
-                <Typography variant='h4' align='center'>Create Room</Typography>
+                <Typography variant='h4' align='center'>
+                    {(props.dialog) ? 'Settings' : 'Create Room'}
+                </Typography>
                 {draw_images()}
                 <Grid align='center'>
-                <TextField
-                    id="standard-number"
-                    label="Number"
-                    type="number"
-                    defaultValue={words}
-                    inputProps={{ min: 2, style: {textAlign: "center"},}}
-                    helperText='Amounts of words to finish'
-                    margin='normal'
-                    onChange={event => setWords(event.target.value)}
-                />
+                    <TextField
+                        id="standard-number"
+                        label="Number"
+                        type="number"
+                        defaultValue={words}
+                        inputProps={{min: 2, style: {textAlign: "center"},}}
+                        helperText='Amounts of words to finish'
+                        margin='normal'
+                        onChange={event => handleWords(event.target.value)}
+                    />
                 </Grid>
-                <Grid direction='column' align='center'>
-                    <Button className={classes.buttons} variant='contained' color='primary'
-                    onClick={() => handleClick()}>
-                         Create Room
-                    </Button>
-                    <Button className={classes.buttons} variant='contained' color='secondary'
-                    component={Link} to={'/'}>
-                        Back to main
-                    </Button>
-                </Grid>
+                {(!props.dialog) ?
+                    <Grid direction='column' align='center'>
+                        <Button className={classes.buttons} variant='contained' color='primary'
+                                onClick={() => handleClick()}>
+                            Create Room
+                        </Button>
+                        <Button className={classes.buttons} variant='contained' color='secondary'
+                                component={Link} to={'/'}>
+                            Back to main
+                        </Button>
+                    </Grid>
+                    : null}
             </div>
         </div>)
 }

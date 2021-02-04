@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -8,9 +8,13 @@ import Typography from '@material-ui/core/Typography';
 
 
 export default function ImageCard(props) {
-    let delta = 0;
-    let color = '#000';
+    let delta = 0
+    let color = '#000'
     let margin_delta = 0
+    const width = 200
+    const height = 250
+    const margin = 20
+
     if (props.current_diff === props.difficulty) {
         delta = 60
         color = '#ff0000'
@@ -19,13 +23,13 @@ export default function ImageCard(props) {
 
     const useStyles = makeStyles({
         root: {
-            width: 200 + delta,
-            height: 250 + delta,
-            margin: 20 + margin_delta,
+            width: width + delta,
+            height: height + delta,
+            margin: margin + margin_delta,
             color: color,
         },
         media: {
-            height: 200 + delta,
+            height: height - 50 + delta,
         },
         content: {
             margin: 0,
