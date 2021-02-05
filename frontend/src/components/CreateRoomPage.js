@@ -18,17 +18,30 @@ export default function CreatePage(props) {
     const classes = useStyles();
     const [diff, setDiff] = useState(props.diff || 'easy')
     const [words, setWords] = useState(props.words_amount || 20)
+    const [time, setTime] = useState(props.time || 30)
     const [successMsg, setSuccess] = useState(null)
     const [errorsMsg, setErrors] = useState(null)
 
-    function handleWords(value){
+    function handleTime(value) {
+        setTime(value)
+        if (props.dialog) {
+            props.setTime(value)
+        }
+    }
+
+    function handleWords(value) {
         setWords(value)
-        props.setWords(value)
+        if (props.dialog) {
+            props.setWords(value)
+        }
+
     }
 
     function changeDiff(difficulty) {
         setDiff(difficulty)
-        props.setDiff(difficulty)
+        if (props.dialog) {
+            props.setDiff(difficulty)
+        }
     }
 
     const images = {
@@ -37,21 +50,21 @@ export default function CreatePage(props) {
             difficulty='easy'
             dialog={props.dialog}
             current_diff={diff}
-            ClickEvent={changeDiff}
+            ClickEvent={(e) => changeDiff(e)}
         />),
         'medium': (<ImageCard
             image='https://vk.com/sticker/1-12702-128'
             difficulty='medium'
             dialog={props.dialog}
             current_diff={diff}
-            ClickEvent={changeDiff}
+            ClickEvent={(e) => changeDiff(e)}
         />),
         'hard': (<ImageCard
             image='https://vk.com/sticker/1-12691-128'
             dialog={props.dialog}
             difficulty='hard'
             current_diff={diff}
-            ClickEvent={changeDiff}
+            ClickEvent={(e) => changeDiff(e)}
         />)
     }
 
@@ -79,6 +92,7 @@ export default function CreatePage(props) {
             body: JSON.stringify({
                 difficulty: diff,
                 words_amount: words,
+                finish_time: time,
             })
         }
         fetch('/api/create-room', request_option)
@@ -104,17 +118,31 @@ export default function CreatePage(props) {
                     {(props.dialog) ? 'Settings' : 'Create Room'}
                 </Typography>
                 {draw_images()}
-                <Grid align='center'>
-                    <TextField
-                        id="standard-number"
-                        label="Number"
-                        type="number"
-                        defaultValue={words}
-                        inputProps={{min: 2, style: {textAlign: "center"},}}
-                        helperText='Amounts of words to finish'
-                        margin='normal'
-                        onChange={event => handleWords(event.target.value)}
-                    />
+                <Grid container alignItems='center' direction='row' justify='center'>
+                    <Grid item align='center'>
+                        <TextField
+                            id="standard-number"
+                            label="Number"
+                            type="number"
+                            defaultValue={words}
+                            inputProps={{min: 2, style: {textAlign: "center"},}}
+                            helperText='Amounts of words to finish'
+                            margin='normal'
+                            onChange={event => handleWords(event.target.value)}
+                        />
+                    </Grid>
+                    <Grid item align='center'>
+                        <TextField
+                            id="standard-number"
+                            label="Time"
+                            type="number"
+                            defaultValue={time}
+                            inputProps={{min: 10, style: {textAlign: "center"},}}
+                            helperText='Round time (seconds)'
+                            margin='normal'
+                            onChange={event => handleTime(event.target.value)}
+                        />
+                    </Grid>
                 </Grid>
                 {(!props.dialog) ?
                     <Grid direction='column' align='center'>

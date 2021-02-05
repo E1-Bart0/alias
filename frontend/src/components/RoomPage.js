@@ -60,28 +60,34 @@ export default function RoomPage(props) {
     const classes = useStyles()
     const room_code = props.match.params.room
     useEffect(() => {
-        const interval = setInterval(() => {
-            let requestOptions = {
-                method: 'PATCH',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    room_code: room_code,
-                })
-            }
-            fetch('/api/game', requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    setRoom(data.room)
-                    setMe(data.me);
-                    setComments(data.comments);
-                    setWinner(data.room.winner);
-                })
-                .catch(error => {
-                    console.log('Error', error)
-                })
-        }, 1000)
-        return () => clearInterval(interval);
-    }, []);
+            const interval = setInterval(() => {
+                let requestOptions = {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        room_code: room_code,
+                    })
+                }
+                fetch('/api/game', requestOptions)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json()
+                        } else {
+                            props.history.push('/')
+                        }
+                    })
+                    .then(data => {
+                        setRoom(data.room)
+                        setMe(data.me);
+                        setComments(data.comments);
+                        setWinner(data.room.winner);
+                    })
+                    .catch(error => {
+                        console.log('Error', error)
+                    })
+            }, 1000)
+            return () => clearInterval(interval);
+        }, []);
 
 
     function leaveRoom() {
@@ -99,7 +105,6 @@ export default function RoomPage(props) {
                 }
             })
         props.history.push('/')
-
     }
 
 

@@ -1,2 +1,4 @@
 /.env/
 /frontend/node_modules/
+/id_rsa.ppk/
+

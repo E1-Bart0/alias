@@ -18,7 +18,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 class CreateRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ['difficulty', 'words_amount']
+        fields = ['difficulty', 'words_amount','finish_time']
 
 
 class RoomsSerializer(serializers.ModelSerializer):
@@ -64,7 +64,7 @@ class GameRoomSerializer(serializers.ModelSerializer):
         model = Room
         fields = ['room', 'difficulty', 'in_room', 'start', 'room_lead',
                   'timer', 'room_words', 'team_1', 'team_2', 'words_amount',
-                  'winner',]
+                  'winner', 'finish_time',]
 
 
 class CommentsSerializer(serializers.ModelSerializer):

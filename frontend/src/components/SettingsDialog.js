@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SettingsDialog(props) {
     const [diff, setDiff] = useState(props.room.difficulty)
     const [words, setWords] = useState(props.room.words_amount)
+    const [time, setTime] = useState(props.room.finish_time)
     const classes = useStyles()
 
     function applyChanges() {
@@ -33,6 +34,7 @@ export default function SettingsDialog(props) {
                 room_code: props.room.room,
                 difficulty: diff,
                 words_amount: words,
+                finish_time: time,
             })
         }
         fetch('/api/create-room', request_option)
@@ -60,8 +62,11 @@ export default function SettingsDialog(props) {
                         dialog={true}
                         words_amount={words}
                         diff={diff}
-                        setWords={setWords}
-                        setDiff={setDiff}
+                        time={time}
+                        setWords={() => setWords()}
+                        setDiff={() => setDiff()}
+                        setTime={() => setTime()}
+
                     />
                 </DialogContent>
                 <DialogActions>

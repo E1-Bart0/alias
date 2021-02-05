@@ -64,12 +64,9 @@ export default function WordCard(props) {
             <Card className={classes.root} elevation={5}>
                 <CardActionArea
                     className={classes.action}
-                    onPointerEnter={() => {
-                        setFocus(true)
-                    }}
-                    onPointerLeave={() => {
-                        setFocus(false)
-                    }}
+                    onPointerEnter={() => setFocus(true)}
+                    onPointerLeave={() => setFocus(false)}
+                    onClick={() => setFocus(!focus)}
                 >
                     <CardContent>
                         {(props.lead || guess) ?

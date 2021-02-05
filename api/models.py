@@ -22,6 +22,7 @@ class Room(models.Model):
     team_1 = models.IntegerField(default=0)
     team_2 = models.IntegerField(default=0)
     winner = models.CharField(max_length=10, null=True)
+    finish_time = models.IntegerField(default=60)
 
 
 class Players(models.Model):

@@ -16,7 +16,7 @@ export default function GameCard(props) {
     const [end, setEnd] = useState(false)
     const [visible, setVisible] = useState(true)
 
-    const finish = 10
+    const finish = props.room.finish_time
 
     function startRound() {
         let timerId = setInterval(() =>
@@ -77,7 +77,7 @@ export default function GameCard(props) {
                                     <Typography variant='h6' align='center'>
                                         Waiting for
                                         <span style={{color: props.leader.user.color}}>
-                                    {` ${props.leader.user.name}`}
+                                    {` ${(props.leader.user.name) ? props.leader.user.name: 'player'}`}
                                     </span>
                                     </Typography>
                                     :

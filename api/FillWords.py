@@ -1,16 +1,18 @@
-import time
-import requests
 import logging
+import time
+
+import requests
+
 from api.models import EasyWord, MediumWord, HardWord
 
-
 logging.basicConfig(filename='words_db.log', level=logging.DEBUG)
-APIKEY = '20140696-5eddb214e95c3bc40379d34e3'
+APIKEY = ''
 LANG = 'ru'
 DB = {'easy': EasyWord, 'medium': MediumWord, 'hard': HardWord}
 
 
 def fill_db(diff, words):
+    EasyWord.objects.all().delete()
     for word in words:
         url = f'https://pixabay.com/api/?key={APIKEY}&q={word.lower()}' \
               f'&lang={LANG}&image_type=photo'
@@ -46,3 +48,4 @@ Words = ['привет', 'очень', 'весна', 'зима', 'лето', 'к
          'каникулы', 'выходные', 'жара', 'отдых', 'гарнитура', 'клавиатура',
          'угар', 'загар', 'муж', 'часы', 'телефон', 'стол', 'ложка', 'вилка',
          'телевизор', 'яхта', 'парус', 'лох', 'чебурек',]
+

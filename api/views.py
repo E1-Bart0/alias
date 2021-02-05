@@ -80,10 +80,13 @@ class CreateRoom(APIView):
             delete_prev_room(host)
             words_amount = room_serializer.data.get('words_amount')
             difficulty = room_serializer.data.get('difficulty')
+            finish_time = room_serializer.data.get('finish_time')
+
             Room(host=User.objects.filter(host=host)[0],
                  room=room,
                  difficulty=difficulty,
-                 words_amount=words_amount).save()
+                 words_amount=words_amount,
+                 finish_time=finish_time).save()
             return Response({'room': room}, status=status.HTTP_201_CREATED)
         return Response({'Bad Response': f'Not Valid Data: {room_serializer.errors}'},
                         status=status.HTTP_400_BAD_REQUEST)
@@ -92,10 +95,12 @@ class CreateRoom(APIView):
         room_code = request.data.get('room_code')
         words_amount = request.data.get('words_amount')
         difficulty = request.data.get('difficulty')
+        finish_time = request.data.get('finish_time')
+
         room = Room.objects.filter(room=room_code)
         if not room.exists():
             return Response({}, status=status.HTTP_404_NOT_FOUND)
-        room.update(words_amount=words_amount, difficulty=difficulty)
+        room.update(words_amount=words_amount, difficulty=difficulty, finish_time=finish_time)
         return Response({}, status=status.HTTP_200_OK)
 
 
