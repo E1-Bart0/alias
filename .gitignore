@@ -2,3 +2,6 @@
 /frontend/node_modules/
 /id_rsa.ppk/
 
+/privat.ppk
+/pub.txt
+/*.log

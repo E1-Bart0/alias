@@ -9,6 +9,7 @@ import Game from "./Game";
 import WordCard from "./WordCard";
 import WinnerDialog from "./WinnerDialog";
 import SettingsDialog from "./SettingsDialog";
+import {Redirect} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +74,9 @@ export default function RoomPage(props) {
                         if (response.ok) {
                             return response.json()
                         } else {
-                            props.history.push('/')
+                            return (
+                                 <Redirect to='/'/>
+                            )
                         }
                     })
                     .then(data => {
