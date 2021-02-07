@@ -1,51 +1,18 @@
 import logging
-import time
-
-import requests
 
 from api.models import EasyWord, MediumWord, HardWord
 
 logging.basicConfig(filename='words_db.log', level=logging.DEBUG)
-APIKEY = ''
-LANG = 'ru'
 DB = {'easy': EasyWord, 'medium': MediumWord, 'hard': HardWord}
 
 
-def fill_db(diff, words):
-    EasyWord.objects.all().delete()
-    for word in words:
-        url = f'https://pixabay.com/api/?key={APIKEY}&q={word.lower()}' \
-              f'&lang={LANG}&image_type=photo'
-        r = requests.get(url).json()
-        try:
-            img_url = r['hits'][0]['webformatURL']
-            time.sleep(1)
+def fill_db(path, difficult):
+    with open(path, mode='r', encoding='utf-8') as data_file:
+        for index, line in enumerate(data_file.readlines()):
             try:
-                DB[diff](word=word, img=img_url).save()
+                word, img = map(str, line.split(','))
+                DB[difficult](word=word, img=img).save()
                 logging.info(f'{word} saved')
-            except Exception as exc:
-                logging.exception(f'{word} did not add \n{exc}')
-        except IndexError:
-            logging.exception(url, '\n', r)
-
-
-def read_file(path, stop):
-    words = []
-    with open(path, mode='r', encoding='cp1251') as file:
-        for index, line in enumerate(file.readlines()):
-            word = line[:-1].lower()
-            if '-' in word or '.' in word or len(word) < 5 \
-                    or len(list(filter(lambda x: word.startswith(x[:-1]), words))) > 0:
-                stop += 1
-                continue
-            if index == stop:
-                break
-            words.append(word)
-    return words
-
-
-Words = ['привет', 'очень', 'весна', 'зима', 'лето', 'круто', 'опять',
-         'каникулы', 'выходные', 'жара', 'отдых', 'гарнитура', 'клавиатура',
-         'угар', 'загар', 'муж', 'часы', 'телефон', 'стол', 'ложка', 'вилка',
-         'телевизор', 'яхта', 'парус', 'лох', 'чебурек',]
-
+            except Exception as err:
+                logging.exception(f'Line #{index}: {line}\nErr: {err}')
+                print(f'Line #{index}: {line}\nErr: {err}')

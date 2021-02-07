@@ -223,8 +223,8 @@ class NewWord(APIView):
         words = [word.word for word in words]
         for i in range(7):
             word = random.choice(self.WordsModel[room[0].difficulty].objects.all())
-            # while word.word in words:
-            #     word = random.choice(self.WordsModel[room[0].difficulty].objects.all())
+            while word.word in words:
+                word = random.choice(self.WordsModel[room[0].difficulty].objects.all())
             Words(word=word.word, room=room[0], img=word.img).save()
             words.append(word.word)
         return Response({}, status=status.HTTP_200_OK)
