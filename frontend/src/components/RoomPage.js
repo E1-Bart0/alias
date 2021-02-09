@@ -55,42 +55,43 @@ export default function RoomPage(props) {
     const [comments, setComments] = useState([])
     const [room, setRoom] = useState({in_room: [], room_lead: [], room_words: []})
     const [settings, setSettings] = useState(false)
+    const [words, setWords] = useState([])
 
     const [winner, setWinner] = useState(null)
 
     const classes = useStyles()
     const room_code = props.match.params.room
     useEffect(() => {
-            const interval = setInterval(() => {
-                let requestOptions = {
-                    method: 'PATCH',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        room_code: room_code,
-                    })
-                }
-                fetch('/api/game', requestOptions)
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json()
-                        } else {
-                            return (
-                                 <Redirect to='/'/>
-                            )
-                        }
-                    })
-                    .then(data => {
-                        setRoom(data.room)
-                        setMe(data.me);
-                        setComments(data.comments);
-                        setWinner(data.room.winner);
-                    })
-                    .catch(error => {
-                        console.log('Error', error)
-                    })
-            }, 1000)
-            return () => clearInterval(interval);
-        }, []);
+        const interval = setInterval(() => {
+            let requestOptions = {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    room_code: room_code,
+                })
+            }
+            fetch('/api/game', requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    } else {
+                        return (
+                            <Redirect to='/'/>
+                        )
+                    }
+                })
+                .then(data => {
+                    setRoom(data.room)
+                    setMe(data.me);
+                    setComments(data.comments);
+                    setWinner(data.room.winner);
+                })
+                .catch(error => {
+                    console.log('Error', error)
+                })
+        }, 1000)
+        return () => clearInterval(interval);
+    }, []);
 
 
     function leaveRoom() {
@@ -132,7 +133,7 @@ export default function RoomPage(props) {
         fetch('/api/guess-word', requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    console.log('Error', error)
+                    console.log('Error', response.error)
                 }
             })
     }
@@ -154,6 +155,28 @@ export default function RoomPage(props) {
     }
 
 
+    useEffect(() => {
+        const new_word = room.room_words.slice(-7, room.room_words.length)
+        if (me && room.room_lead.length !==0 && new_word.length === 7 &&
+            room.room_lead[0].player.user.id === me.user.id &&
+            new_word.filter(word => word.guess === 1).length === 7
+        ) {
+            new_words('PATCH')
+        }
+        setWords(new_word)
+    }, [room.room_words])
+
+        function new_words(method) {
+        const requestOptions = {
+            method: method,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                room: room.room
+            })
+        }
+        fetch('/api/new-word', requestOptions)
+            .then(response => response.json())
+    }
     return (
         <div className={classes.root}>
             <WinnerDialog
@@ -202,6 +225,7 @@ export default function RoomPage(props) {
                           me={me}
                           room={room}
                           start={room.start}
+                          new_words={new_words}
                     />
 
                 </Grid>
@@ -218,7 +242,7 @@ export default function RoomPage(props) {
             </Grid>
             {(room.room_words.length !== 0 && me && room.timer) ?
                 <Grid container className={classes.wordCards} spacing={1}>
-                    {(room.room_words.slice(-7, room.room_words.length).map((word, index) => (
+                    {words.map((word, index) => (
                         <Grid key={index} item>
                             <WordCard room={room}
                                       index={index}
@@ -226,7 +250,7 @@ export default function RoomPage(props) {
                                       lead={room.room_lead[0].player.user.id === me.user.id}
                                       handleGuess={handleGuess}
                             />
-                        </Grid>)))}
+                        </Grid>))}
                 </Grid>
                 : null}
         </div>

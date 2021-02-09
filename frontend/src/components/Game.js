@@ -52,6 +52,7 @@ export default function Game(props) {
                         lead={props.room.room_lead[0].player.user.id === props.me.user.id}
                         leader={props.room.room_lead[0].player}
                         next_player={handleStart}
+                        new_words={props.new_words}
                     />
 
                 }

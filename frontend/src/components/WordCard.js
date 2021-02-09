@@ -12,8 +12,11 @@ export default function WordCard(props) {
 
     useEffect(() => {
         setGuess(props.word.guess === 1)
+        if (!visible && props.word.guess === 0) {
+            setVisible(true)
+            setGuess(false)
+        }
     }, [props.word.guess])
-
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -22,7 +25,7 @@ export default function WordCard(props) {
             backgroundImage: (focus && (props.lead || guess)) ?
                 `url(${props.word.img})`
                 : null,
-            backgroundSize: 'cover',
+            backgroundSize: 'contain',
             background: (props.lead || props.room.room_lead.length === 0 || guess) ?
                 (!focus) ? 'whitesmoke' : null :
                 `linear-gradient(0deg, #ffffff 0%, ${props.room.room_lead[0].player.user.color} 100%)`,
@@ -57,9 +60,10 @@ export default function WordCard(props) {
     return (
         <Slide in={visible}
                direction={'up'}
-               onExited={() => setWidth(0)}
+            // onExited={() => setWidth(0)}
+            // onEnter={() => setWidth(width)}
                style={{transformOrigin: '0 0 0'}}
-               {...(visible ? {timeout: props.index * 500} : {})}
+               {...(visible ? {timeout: props.index * 100} : {})}
         >
             <Card className={classes.root} elevation={5}>
                 <CardActionArea

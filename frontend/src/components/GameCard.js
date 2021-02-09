@@ -37,20 +37,9 @@ export default function GameCard(props) {
         }
     }, [props.room.timer])
 
-    function new_word(method) {
-        const requestOptions = {
-            method: method,
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                room: props.room.room
-            })
-        }
-        fetch('/api/new-word', requestOptions)
-            .then(response => response.json())
-    }
 
     function handleFinish() {
-        new_word('POST')
+        props.new_words('POST')
         setEnd(true)
     }
 
@@ -102,7 +91,7 @@ export default function GameCard(props) {
                                             Finish
                                         </Button> :
                                         <Button variant='contained' color='secondary'
-                                                onClick={() => new_word('PATCH')
+                                                onClick={() => props.new_words('PATCH')
                                                 }>
                                             Start
                                         </Button>
