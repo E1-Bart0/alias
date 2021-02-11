@@ -9,7 +9,7 @@ import Game from "./Game";
 import WordCard from "./WordCard";
 import WinnerDialog from "./WinnerDialog";
 import SettingsDialog from "./SettingsDialog";
-import {Redirect} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,9 +75,7 @@ export default function RoomPage(props) {
                     if (response.ok) {
                         return response.json()
                     } else {
-                        return (
-                            <Redirect to='/'/>
-                        )
+                        leaveRoom()
                     }
                 })
                 .then(data => {
@@ -107,8 +105,10 @@ export default function RoomPage(props) {
                 if (!response.ok) {
                     console.log('Bad-Response: Unable to delete')
                 }
+                return (response.json())
             })
-        props.history.push('/')
+        return (
+            props.history.push('/'))
     }
 
 
@@ -157,7 +157,7 @@ export default function RoomPage(props) {
 
     useEffect(() => {
         const new_word = room.room_words.slice(-7, room.room_words.length)
-        if (me && room.room_lead.length !==0 && new_word.length === 7 &&
+        if (me && room.room_lead.length !== 0 && new_word.length === 7 &&
             room.room_lead[0].player.user.id === me.user.id &&
             new_word.filter(word => word.guess === 1).length === 7
         ) {
@@ -166,7 +166,7 @@ export default function RoomPage(props) {
         setWords(new_word)
     }, [room.room_words])
 
-        function new_words(method) {
+    function new_words(method) {
         const requestOptions = {
             method: method,
             headers: {'Content-Type': 'application/json'},
@@ -177,6 +177,7 @@ export default function RoomPage(props) {
         fetch('/api/new-word', requestOptions)
             .then(response => response.json())
     }
+
     return (
         <div className={classes.root}>
             <WinnerDialog

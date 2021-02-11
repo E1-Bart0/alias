@@ -1,7 +1,8 @@
-/.env/
 /frontend/node_modules/
-/id_rsa.ppk/
-
+/id_rsa.ppk
+/id_rsa
 /privat.ppk
 /pub.txt
 /*.log
+/.venv/
+/*.sqlite3

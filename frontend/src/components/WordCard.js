@@ -60,8 +60,8 @@ export default function WordCard(props) {
     return (
         <Slide in={visible}
                direction={'up'}
-            // onExited={() => setWidth(0)}
-            // onEnter={() => setWidth(width)}
+               onExited={() => setWidth(0)}
+               onEntered={() => setWidth(100)}
                style={{transformOrigin: '0 0 0'}}
                {...(visible ? {timeout: props.index * 100} : {})}
         >
