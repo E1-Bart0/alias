@@ -20,8 +20,7 @@ export default function GameCard(props) {
 
     function startRound() {
         let timerId = setInterval(() => {
-            setValue((prevState => prevState + 100 / finish));
-            props.setTime(value);
+            setValue((prevState => prevState + 100 / finish))
         }, 1000);
         setTimeout(() => {
             clearInterval(timerId);
@@ -39,12 +38,12 @@ export default function GameCard(props) {
         }
     }, [props.room.timer])
 
-
     function handleFinish() {
         props.new_words('POST')
         setEnd(true)
     }
 
+    props.setTime(finish - value * finish / 100);
     return (
         <Collapse in={visible}>
             <Grid container spacing={2}>
@@ -68,7 +67,7 @@ export default function GameCard(props) {
                                     <Typography variant='h6' align='center'>
                                         Waiting for
                                         <span style={{color: props.leader.user.color}}>
-                                    {` ${(props.leader.user.name) ? props.leader.user.name: 'player'}`}
+                                    {` ${(props.leader.user.name) ? props.leader.user.name : 'player'}`}
                                     </span>
                                     </Typography>
                                     :
@@ -83,7 +82,7 @@ export default function GameCard(props) {
                                       alignItems='center' align='center'>
                                     {(end) ? <Button variant='contained' color='secondary'
                                                      onClick={() => {
-                                                        setVisible(false)
+                                                         setVisible(false)
                                                          setTimeout(() => {
                                                              setVisible(true)
                                                          }, 1000)
