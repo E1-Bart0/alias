@@ -56,6 +56,7 @@ export default function RoomPage(props) {
     const [room, setRoom] = useState({in_room: [], room_lead: [], room_words: []})
     const [settings, setSettings] = useState(false)
     const [words, setWords] = useState([])
+    const [time, setTime] = useState(0)
 
     const [winner, setWinner] = useState(null)
 
@@ -149,7 +150,7 @@ export default function RoomPage(props) {
         fetch('/api/mix-players', requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    console.log('Error', error)
+                    console.log('Error', response.error)
                 }
             })
     }
@@ -157,7 +158,8 @@ export default function RoomPage(props) {
 
     useEffect(() => {
         const new_word = room.room_words.slice(-7, room.room_words.length)
-        if (me && room.room_lead.length !== 0 && new_word.length === 7 &&
+        if (me && room.room_lead.length !== 0 && time > 2
+            && new_word.length === 7 &&
             room.room_lead[0].player.user.id === me.user.id &&
             new_word.filter(word => word.guess === 1).length === 7
         ) {
@@ -227,6 +229,7 @@ export default function RoomPage(props) {
                           room={room}
                           start={room.start}
                           new_words={new_words}
+                          setTime={setTime}
                     />
 
                 </Grid>

@@ -53,6 +53,7 @@ export default function Game(props) {
                         leader={props.room.room_lead[0].player}
                         next_player={handleStart}
                         new_words={props.new_words}
+                        setTime={props.setTime}
                     />
 
                 }

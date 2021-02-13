@@ -46,7 +46,7 @@ def next_player(players, room):
         winner_check(leader[0], room)
     else:
         player = player_not_lead_1[0] if len(player_not_lead_1) >= len(player_not_lead_2) \
-            else player_not_lead_2
+            else player_not_lead_2[0]
         Leader(room=room, player=player).save()
     player.lead = True
     player.save(update_fields=['lead'])

@@ -63,9 +63,9 @@ export default function SettingsDialog(props) {
                         words_amount={words}
                         diff={diff}
                         time={time}
-                        setWords={() => setWords()}
-                        setDiff={() => setDiff()}
-                        setTime={() => setTime()}
+                        setWords={setWords}
+                        setDiff={setDiff}
+                        setTime={setTime}
 
                     />
                 </DialogContent>

@@ -19,8 +19,10 @@ export default function GameCard(props) {
     const finish = props.room.finish_time
 
     function startRound() {
-        let timerId = setInterval(() =>
-            setValue((prevState => prevState + 100 / finish)), 1000);
+        let timerId = setInterval(() => {
+            setValue((prevState => prevState + 100 / finish));
+            props.setTime(value);
+        }, 1000);
         setTimeout(() => {
             clearInterval(timerId);
             if (props.lead) {
