@@ -50,8 +50,8 @@ export default function ImageCard(props) {
                     <Typography variant="h5" com
                                 ponent="h2" align='center'>
                         {(props.current_diff === props.difficulty) ?
-                            `${props.difficulty.toUpperCase()} WORDS` :
-                            `${props.difficulty} words`}
+                            `${(props.difficulty === 'hard') ? 'HOOKAH': props.difficulty.toUpperCase()} WORDS` :
+                            `${(props.difficulty === 'hard') ? 'hookah': props.difficulty} words`}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p" align='right'>
                         Choose difficulty

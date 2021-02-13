@@ -5,8 +5,8 @@ import {Help} from "@material-ui/icons";
 import AvatarNameInput from "./AvatarNameInput";
 
 const useStyles = makeStyles((theme) => ({
-    root: {display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh',},
-    appbar: {position: 'fixed', background: 'whitesmoke', color: 'red',},
+    root: {display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'none'},
+    appbar: {position: 'fixed',background: 'none' , color: 'red',},
     appbarTitle: {flexGrow: '1',},
     appbarWrapper: {width: '80%', margin: '0 auto'}
 }))

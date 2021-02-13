@@ -46,21 +46,21 @@ export default function CreatePage(props) {
 
     const images = {
         'easy': (<ImageCard
-            image='https://sun9-38.userapi.com/impg/Tj2MEF8-iWshmyBx41pp0zuZ8w0HiQcGfZSLzA/dBjR4pFrrXI.jpg?size=256x389&quality=96&proxy=1&sign=f01dc66c618d64b584332a78f04bc19f&type=album'
+            image='https://vk.com/sticker/1-12702-128'
             difficulty='easy'
             dialog={props.dialog}
             current_diff={diff}
             ClickEvent={(e) => changeDiff(e)}
         />),
         'medium': (<ImageCard
-            image='https://vk.com/sticker/1-12702-128'
+            image='https://vk.com/sticker/1-12691-128'
             difficulty='medium'
             dialog={props.dialog}
             current_diff={diff}
             ClickEvent={(e) => changeDiff(e)}
         />),
         'hard': (<ImageCard
-            image='https://vk.com/sticker/1-12691-128'
+            image='https://hookahrussia.ru/wp-content/uploads/2015/12/hd-wallpapers-hookah-smoke-rings-wallpaper-i-1920x1080-wallpaper-720x415.jpg'
             dialog={props.dialog}
             difficulty='hard'
             current_diff={diff}

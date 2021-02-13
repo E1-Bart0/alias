@@ -1,3 +1,4 @@
+import csv
 import logging
 
 from api.models import EasyWord, MediumWord, HardWord
@@ -7,10 +8,15 @@ DB = {'easy': EasyWord, 'medium': MediumWord, 'hard': HardWord}
 
 
 def fill_db(path, difficult):
+    """
+    :param path: file path
+    :param difficult: words difficult
+    :return: None
+    """
     with open(path, mode='r', encoding='utf-8') as data_file:
         for index, line in enumerate(data_file.readlines()):
             try:
-                word, img = map(str, line.split(','))
+                word, img = map(str, line.split('; '))
                 DB[difficult](word=word, img=img).save()
                 logging.info(f'{word} saved')
             except Exception as err:
