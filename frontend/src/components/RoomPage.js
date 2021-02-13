@@ -157,12 +157,14 @@ export default function RoomPage(props) {
 
 
     useEffect(() => {
+        console.log(time)
         const new_word = room.room_words.slice(-7, room.room_words.length)
         if (time > 5 && time !== room.finish_time &&
             me && room.room_lead.length !== 0 &&
             room.room_lead[0].player.user.id === me.user.id &&
             new_word.filter(word => word.guess === 1).length === 7
         ) {
+            console.log('restart')
             new_words('PATCH')
         }
         setWords(new_word)
